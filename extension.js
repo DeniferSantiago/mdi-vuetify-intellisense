@@ -1,30 +1,45 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-
+const https = require("https");
 /**
- * @param {vscode.ExtensionContext} context
+ * 
+ * @param {vscode.ExtensionContext} context 
  */
 function activate(context) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "mdi-vuetify-intellisense" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
-	});
-
-	context.subscriptions.push(disposable);
+	GetData(context);
+	const provider2 = vscode.languages.registerCompletionItemProvider(
+		'vue',
+		{
+			provideCompletionItems(document, position) {
+				let linePrefix = document.lineAt(position).text.substr(0, position.character);
+				let prefix = linePrefix.slice(linePrefix.length - 4);
+				if(prefix === "mdi-"){
+					console.log("");
+				}
+				return [];
+			}
+		},
+		'-'
+	);
+	context.subscriptions.push(provider2);
+}
+/**
+ * 
+ * @param {vscode.ExtensionContext} context 
+ */
+function GetData(context){
+	let data = context.workspaceState.get("mdi");
+	if(!data){
+		var request = https.get("https://materialdesignicons.com/api/package/38EF63D0-4744-11E4-B3CF-842B2B6CFE1B",
+		r => {
+			var dataString = "";
+			r.on("data", chunk => dataString += chunk);
+			r.on("end", () => {
+				const dataJson = JSON.parse(dataString);
+				context.workspaceState.update("mdi", dataJson);
+			});
+		});
+		request.on("error", e => console.error(e));
+	}
 }
 exports.activate = activate;
 
