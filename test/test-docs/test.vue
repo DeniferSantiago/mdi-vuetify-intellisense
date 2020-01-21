@@ -5,7 +5,7 @@
                 <span class="font-weight-bold headline">
                     Patient Charts
                 </span>
-                <v-btn icon title="Create Patient" class="float-right" color="contrast" to="patients/details" icon="">
+                <v-btn icon title="Create Patient" class="float-right" color="contrast" to="patients/details">
                     <v-icon>mdi-account-plus</v-icon>
                 </v-btn>
             </v-col>

@@ -6,21 +6,44 @@ const https = require("https");
  */
 function activate(context) {
 	GetData(context);
+	const provider1 = vscode.languages.registerCompletionItemProvider(
+		'vue',
+		{
+			provideCompletionItems(document, position){
+				const start = new vscode.Position(position.line, 0);
+				const range = new vscode.Range(start, position);
+				const text = document.getText(range);
+				const rawClasses = text.match(/icon=["|']([\w- ]*$)/);
+				console.log(rawClasses);
+				return [];
+			}
+		}
+	)
 	const provider2 = vscode.languages.registerCompletionItemProvider(
 		'vue',
 		{
 			provideCompletionItems(document, position) {
-				let linePrefix = document.lineAt(position).text.substr(0, position.character);
-				let prefix = linePrefix.slice(linePrefix.length - 4);
+				let range = new vscode.Range(new vscode.Position(0,0), position);
+				let behindTextReverse = Reverse(document.getText(range));
+				if(/^(-|.|\n)*?(>noci-v<)/.test(behindTextReverse)){
+					let index = behindTextReverse.indexOf(">");
+					let text = behindTextReverse.substring(0, index);
+					console.log(Reverse(text));
+				}
+				else if(/^.*?(("|')=noci)/.test(behindTextReverse)){
+					let results = behindTextReverse.match(/('|")/);
+					console.log(results);
+				}
+				/* let prefix = linePrefix.slice(linePrefix.length - 4);
 				if(prefix === "mdi-"){
 					console.log("");
-				}
+				} */
 				return [];
 			}
 		},
 		'-'
 	);
-	context.subscriptions.push(provider2);
+	context.subscriptions.push(provider1, provider2);
 }
 /**
  * 
@@ -45,7 +68,14 @@ exports.activate = activate;
 
 // this method is called when your extension is deactivated
 function deactivate() {}
-
+function Reverse(str) {
+	var reverseStr = "";
+	for (let i = str.length - 1; i >= 0; i--) {
+		const char = str[i];
+		reverseStr += char;
+	}
+	return reverseStr;
+}
 module.exports = {
 	activate,
 	deactivate
