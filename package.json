@@ -2,12 +2,37 @@
 	"name": "mdi-vuetify-intellisense",
 	"displayName": "mdi-vuetify-intellisense",
 	"description": "Intellisense for Material Design Icons with Vuetify",
+	"author": {
+		"name": "Denifer Santiago",
+		"email": "deniferjose05@gmail.com",
+		"url": "https://github.com/DeniferSantiago"
+	},
+	"publisher": "DeniferSantiago",
+	"bugs": {
+		"email": "deniferjose05@gmail.com",
+		"url": "https://github.com/DeniferSantiago/mdi-vuetify-intellisense/issues"
+	},
+	"keywords": [
+		"material-design",
+		"material design icons",
+		"vuetify",
+		"vue",
+		"mdi intellisense",
+		"icon intellisense",
+		"icons",
+        "mdi"
+    ],
+	"license": "MIT",
+	"contributors": [
+		"Denifer"
+	],
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.41.0"
 	},
 	"categories": [
-		"Other"
+		"Other",
+		"Programming Languages"
 	],
 	"activationEvents": [
 		"onLanguage:vue"
@@ -36,6 +61,6 @@
 		"vscode-test": "^1.2.2"
 	},
 	"dependencies": {
-		"@mdi/svg": "^4.5.95"
+		"@mdi/svg": "^4.8.95"
 	}
 }

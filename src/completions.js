@@ -6,6 +6,10 @@ var intellisense = [];
 function SetIntellisense(data){
     intellisense = data;
 }
+/**@param {String} name */
+function GetIcon(name) {
+    return intellisense.find(icon => icon.name === name || !!icon.aliases.find(alias => alias === name));
+}
 class Icon{
 	/**@param {{ name: string; aliases: string[]; data: string; }} data*/
 	constructor(data){
@@ -117,7 +121,7 @@ async function ResolveCompletion(item){
 	if(item.icon){
 		/**@type {IconInfo} */
 		const data = await GetIconData(item.icon);
-		let doc = new vscode.MarkdownString(`# ${data.name}\n`)
+		let doc = new vscode.MarkdownString(`# ${data.name}\n`);
 		doc.appendMarkdown(data.icon.value + "\n");
 		doc.appendMarkdown(`
 		- link: ${data.link.value}\n
@@ -144,5 +148,6 @@ module.exports = {
     TagIconCompletion,
     MyCompletionItem,
     Icon,
-    SetIntellisense
+    SetIntellisense,
+    GetIcon
 };
