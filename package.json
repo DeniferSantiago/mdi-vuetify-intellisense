@@ -7,7 +7,11 @@
 		"email": "deniferjose05@gmail.com",
 		"url": "https://github.com/DeniferSantiago"
 	},
-	"publisher": "DeniferSantiago",
+	"repository": {
+		"url": "https://github.com/DeniferSantiago/mdi-vuetify-intellisense",
+		"type": "git"
+	},
+	"publisher": "Denifer",
 	"bugs": {
 		"email": "deniferjose05@gmail.com",
 		"url": "https://github.com/DeniferSantiago/mdi-vuetify-intellisense/issues"
@@ -38,14 +42,6 @@
 		"onLanguage:vue"
 	],
 	"main": "./extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
-			}
-		]
-	},
 	"scripts": {
 		"test": "node ./test/runTest.js"
 	},

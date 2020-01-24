@@ -1,4 +1,4 @@
-# VueBindThis
+# MDI-VUETIFY-INTELLISENSE
 
 Quickly add material design icons to your application with this preview provider and intellisense.
 
