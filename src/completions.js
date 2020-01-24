@@ -122,10 +122,10 @@ async function ResolveCompletion(item){
 		/**@type {IconInfo} */
 		const data = await GetIconData(item.icon);
 		let doc = new vscode.MarkdownString(`# ${data.name}\n`);
-		doc.appendMarkdown(data.icon.value + "\n");
+		doc.appendMarkdown(data.icon.value);
 		doc.appendMarkdown(`
-		- link: ${data.link.value}\n
-		- aliases: ${data.aliases}\n
+		- link: ${data.link.value}
+		- aliases: ${data.aliases}
 		`);
 		item.documentation = doc;
 	}

@@ -25,7 +25,7 @@ async function HoverIconPreview(doc, pos) {
         let hover = new vscode.Hover(new vscode.MarkdownString(`# ${iconData.name}\n`));
         hover.contents.push(iconData.icon);
         hover.contents.push(`
-		* link: ${iconData.link}
+		* link: ${iconData.link.value}
 		* aliases: ${iconData.aliases}
         `);
         return hover;
