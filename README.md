@@ -1,65 +1,26 @@
-# mdi-vuetify-intellisense README
+# VueBindThis
 
-This is the README for your extension "mdi-vuetify-intellisense". After writing up a brief description, we recommend including the following sections.
+Quickly add material design icons to your application with this preview provider and intellisense.
 
-## Features
+## Usage:
+...
+## Contribute:
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+1. Install [Node.js](https://nodejs.org/en/)
+2. Run comand: ´npm install -g yo generator-code´
+3. Clone this proyect: ´git clone https://github.com/DeniferSantiago/mdi-vuetify-intellisense.git´
+4. Open proyect with vs code
+5. Run command: ´npm install´ for get node_modules folder
+6. Explore and Contribute
+  
+## Debug:
 
-For example if there is an image subfolder under your extension project workspace:
+1. Press F5 for run extension into new instance of vs code
+2. In the debug instance open the project test folder
+3. You can work with the extension as a test within the test/test-docs/test.vue file
 
-\!\[feature X\]\(images/feature-x.png\)
+## Donations:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+**Do you want to donate to reward project members?**  
+*If so, you can do it through paypal.*  
+[Donate with paypal](https://paypal.me/paycreatech?locale.x=es_XC)
