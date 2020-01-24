@@ -24,13 +24,13 @@
 		"mdi intellisense",
 		"icon intellisense",
 		"icons",
-        "mdi"
-    ],
+		"mdi"
+	],
 	"license": "MIT",
 	"contributors": [
 		"Denifer"
 	],
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"engines": {
 		"vscode": "^1.41.0"
 	},
