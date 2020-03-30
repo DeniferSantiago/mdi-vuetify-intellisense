@@ -24,14 +24,13 @@ class Icon{
 	}
 	/** @param {String} text */
 	ToCompletionItem(text){
-        if(this.name.startsWith(text))
+        if(!this.name.startsWith(text))
             return null;
         let sections = text.split("-").length;
 		sections--;
         let nameArray = this.name.split("-");
 		let completionName = nameArray.slice(sections, nameArray.length).join("-");
 		let item = new MyCompletionItem(this.name, vscode.CompletionItemKind.Text, this.name, this);
-		item.commitCharacters = ["-"];
 		item.insertText = completionName;
 		return item;
     }
@@ -43,10 +42,7 @@ class Icon{
         var items = this.aliases
             .filter(alias => alias.startsWith(text))
             .map(alias => {
-                let aliasArray = alias.split("-");
-                let completionName = aliasArray.slice(sections, aliasArray.length).join("-");
                 let item = new MyCompletionItem(alias, vscode.CompletionItemKind.Text, alias, this);
-                item.commitCharacters = ["-"];
                 item.insertText = this.name;
                 item.range = range;
                 return item;
@@ -154,7 +150,6 @@ async function ResolveCompletion(item){
 }
 /**@param {String} name; @param {vscode.Range} range */
 function GetCompletions(name, range) {
-    const sections = name.split("-").length;
     var result = intellisense.filter(icon => {
         const n = icon.name.startsWith(name);
         const a = !!icon.aliases.find(a => a.startsWith(name));
