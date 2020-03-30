@@ -6,7 +6,7 @@ const { HoverIconPreview } = require("./src/hover");
  * @param {vscode.ExtensionContext} context 
  */
 async function activate(context) {
-	SetIntellisense(await GetData(context));
+	SetIntellisense(GetData());
 	const provider1 = vscode.languages.registerCompletionItemProvider(
 		'vue',
 		{

@@ -1,8 +1,8 @@
 const vscode = require("vscode");
 const { Reverse, GetIconData, IconInfo } = require("./helpers");
-/**@type {Array<Icon>}*/
+/**@type {Icon[]}*/
 var intellisense = [];
-/**@param {Array<Icon>} data*/
+/**@param {Icon[]} data*/
 function SetIntellisense(data){
     intellisense = data;
 }
@@ -11,27 +11,50 @@ function GetIcon(name) {
     return intellisense.find(icon => icon.name === name || !!icon.aliases.find(alias => alias === name));
 }
 class Icon{
-	/**@param {{ name: string; aliases: string[]; data: string; }} data*/
+	/**@param {{ name: string; aliases: string[]; tags: string[]; }} data*/
 	constructor(data){
-		/**@type{String}*/
+		/**@type {String}*/
 		this.name = data.name;
-		/**@type{Array<String>} */
+		/**@type {string[]} */
 		this.aliases = data.aliases;
-		/**@type{String}*/
-		this.data = data.data;
-		/**@type{Number} */
+		/**@type {string[]}*/
+		this.tags = data.tags;
+		/**@type {Number} */
 		this.sections = this.name.split("-").length;
 	}
-	/**@param {Number} sections */
-	ToCompletionItem(sections){
-		sections -= 1; 
-		let nameArray = this.name.split("-");
+	/** @param {String} text */
+	ToCompletionItem(text){
+        if(this.name.startsWith(text))
+            return null;
+        let sections = text.split("-").length;
+		sections--;
+        let nameArray = this.name.split("-");
 		let completionName = nameArray.slice(sections, nameArray.length).join("-");
 		let item = new MyCompletionItem(this.name, vscode.CompletionItemKind.Text, this.name, this);
 		item.commitCharacters = ["-"];
 		item.insertText = completionName;
 		return item;
-	}
+    }
+    /** @param {String} text; @param {vscode.Range} range */
+    ToAllCompletionItem(text, range){
+        let sections = text.split("-").length;
+        const itemName = this.ToCompletionItem(text);
+        sections--;
+        var items = this.aliases
+            .filter(alias => alias.startsWith(text))
+            .map(alias => {
+                let aliasArray = alias.split("-");
+                let completionName = aliasArray.slice(sections, aliasArray.length).join("-");
+                let item = new MyCompletionItem(alias, vscode.CompletionItemKind.Text, alias, this);
+                item.commitCharacters = ["-"];
+                item.insertText = this.name;
+                item.range = range;
+                return item;
+            });
+        if(itemName)
+            items.push(itemName);
+        return items;
+    }
 }
 class MyCompletionItem extends vscode.CompletionItem{
 	/**
@@ -69,13 +92,12 @@ function TagIconCompletion(document, position) {
         }
         else{
             if(name === "mdi-"){
-                completions.push(...intellisense
-                    .map(icon => icon.ToCompletionItem(1))
-                );
+                completions.push(...GetCompletions("", null));
             }
             else{
                 const realName = name.substr(4, name.length);
-                completions.push(...GetCompletions(realName));
+                const replaceRange = new vscode.Range(new vscode.Position(position.line, position.character - realName.length), position);
+                completions.push(...GetCompletions(realName, replaceRange));
             }
         }
     }
@@ -103,14 +125,13 @@ function PropsItemCompletion(document, position){
             completions.push(mdiCompletion);
         }
         else{
+            const replaceRange = new vscode.Range(new vscode.Position(position.line, position.character - name.length), position);
             if(name === "mdi-"){
-                completions.push(...intellisense
-                    .map(icon => icon.ToCompletionItem(1))
-                );
+                completions.push(...GetCompletions("", replaceRange));
             }
             else{
                 const realName = name.substr(4, name.length);
-                completions.push(...GetCompletions(realName));
+                completions.push(...GetCompletions(realName, replaceRange));
             }
         }
     }
@@ -131,16 +152,16 @@ async function ResolveCompletion(item){
 	}
 	return item;
 }
-/**@param {String} name */
-function GetCompletions(name) {
-	const sections = name.split("-").length;
-	return intellisense.filter(icon => {
-		if(icon.sections < sections){
-			return false;
-		}
-		let  b = icon.name.startsWith(name);
-		return b;
-	}).map(icon => icon.ToCompletionItem(sections));
+/**@param {String} name; @param {vscode.Range} range */
+function GetCompletions(name, range) {
+    const sections = name.split("-").length;
+    var result = intellisense.filter(icon => {
+        const n = icon.name.startsWith(name);
+        const a = !!icon.aliases.find(a => a.startsWith(name));
+		return n || a;
+	}).map(icon => icon.ToAllCompletionItem(name, range));
+
+	return [].concat(...result);
 }
 module.exports = {
     ResolveCompletion,
