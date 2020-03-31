@@ -31,20 +31,23 @@ class Icon{
         let nameArray = this.name.split("-");
 		let completionName = nameArray.slice(sections, nameArray.length).join("-");
 		let item = new MyCompletionItem(this.name, vscode.CompletionItemKind.Text, this.name, this);
-		item.insertText = completionName;
+        item.insertText = completionName;
+        item.commitCharacters = ["-"];
 		return item;
     }
-    /** @param {String} text; @param {vscode.Range} range */
-    ToAllCompletionItem(text, range){
+    /** @param {String} text*/
+    ToAllCompletionItem(text){
         let sections = text.split("-").length;
         const itemName = this.ToCompletionItem(text);
         sections--;
         var items = this.aliases
             .filter(alias => alias.startsWith(text))
             .map(alias => {
+                let aliasArray = alias.split("-");
+                let completionAlias = aliasArray.slice(sections, aliasArray.length).join("-");
                 let item = new MyCompletionItem(alias, vscode.CompletionItemKind.Text, alias, this);
-                item.insertText = this.name;
-                item.range = range;
+                item.insertText = completionAlias;
+                item.commitCharacters = ["-"];
                 return item;
             });
         if(itemName)
@@ -78,7 +81,7 @@ function TagIconCompletion(document, position) {
         let index = behindTextReverse.indexOf(">");
         let text = behindTextReverse.substring(0, index);
         let name = Reverse(text);
-        if(name.length < 4){
+        if(name.length < "mdi-".length){
             let mdiCompletion = new MyCompletionItem("mdi", vscode.CompletionItemKind.Text, "mdi");
             mdiCompletion.preselect = true;
             mdiCompletion.range = new vscode.Range(position.line, position.character - 1, position.line, position.character);
@@ -88,12 +91,11 @@ function TagIconCompletion(document, position) {
         }
         else{
             if(name === "mdi-"){
-                completions.push(...GetCompletions("", null));
+                completions.push(...GetCompletions(""));
             }
             else{
-                const realName = name.substr(4, name.length);
-                const replaceRange = new vscode.Range(new vscode.Position(position.line, position.character - realName.length), position);
-                completions.push(...GetCompletions(realName, replaceRange));
+                let realName = name.slice("mdi-".length, name.length);
+                completions.push(...GetCompletions(realName));
             }
         }
     }
@@ -121,13 +123,12 @@ function PropsItemCompletion(document, position){
             completions.push(mdiCompletion);
         }
         else{
-            const replaceRange = new vscode.Range(new vscode.Position(position.line, position.character - name.length), position);
             if(name === "mdi-"){
-                completions.push(...GetCompletions("", replaceRange));
+                completions.push(...GetCompletions(""));
             }
             else{
-                const realName = name.substr(4, name.length);
-                completions.push(...GetCompletions(realName, replaceRange));
+                const realName = name.substr("mdi-".length, name.length);
+                completions.push(...GetCompletions(realName));
             }
         }
     }
@@ -148,13 +149,13 @@ async function ResolveCompletion(item){
 	}
 	return item;
 }
-/**@param {String} name; @param {vscode.Range} range */
-function GetCompletions(name, range) {
+/**@param {String} name */
+function GetCompletions(name) {
     var result = intellisense.filter(icon => {
         const n = icon.name.startsWith(name);
         const a = !!icon.aliases.find(a => a.startsWith(name));
 		return n || a;
-	}).map(icon => icon.ToAllCompletionItem(name, range));
+	}).map(icon => icon.ToAllCompletionItem(name));
 
 	return [].concat(...result);
 }

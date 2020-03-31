@@ -13,11 +13,7 @@ async function HoverIconPreview(doc, pos) {
         return null;
     }
     const text = doc.getText(range);
-    const match = regex.exec(text);
-    if (!match) {
-      return null;
-    }
-    const name = match[1];
+    const name = text.slice("mdi-".length);
     const icon = GetIcon(name);
     if(icon){
         /**@type {IconInfo} */
