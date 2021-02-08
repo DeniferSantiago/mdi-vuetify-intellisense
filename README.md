@@ -3,7 +3,7 @@
 Quickly add material design icons to your application with this preview provider and intellisense.
 
 ## Usage:
-...
+-Only work in JS with options api of vue.
 ## Contribute:
 
 1. Install [Node.js](https://nodejs.org/en/)
