@@ -8,7 +8,10 @@ Quickly add material design icons to your application with this preview provider
 
 1. Install [Node.js](https://nodejs.org/en/)
 2. Run comand: ´npm install -g yo generator-code´
-3. Clone this proyect: ´git clone https://github.com/DeniferSantiago/mdi-vuetify-intellisense.git´
+3. Clone this project: 
+  ```
+  git clone https://github.com/DeniferSantiago/mdi-vuetify-intellisense.git
+  ```
 4. Open proyect with vs code
 5. Run command: ´npm install´ for get node_modules folder
 6. Explore and Contribute
